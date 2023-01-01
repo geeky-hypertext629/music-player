@@ -41,7 +41,7 @@ export default function Playing(props) {
     function playNext() {
         audio.pause();
         setStatus(false);
-
+        setcurrtime(0);
         i = (i + 1) % 5;
         x=0;
         settimeline(0);
@@ -59,7 +59,7 @@ export default function Playing(props) {
     function playPrev() {
         audio.pause();
         setStatus(false);
-
+        setcurrtime(0);
         i = i - 1;
         if (i < 0)
             i = 4;
@@ -83,7 +83,7 @@ export default function Playing(props) {
 
         useEffect(()=>{
             setcurrtime(currtime+0.01);
-        },[timeline]);
+        },[timeline]);  // eslint-disable-line react-hooks/exhaustive-deps
 
 
 
