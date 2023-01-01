@@ -13,12 +13,15 @@ let i = 0;
 let x=0;
 let audio = new Audio(songsList[i]);
 let progress=0;
+let songtime=0;
+let t1=0;
+
 export default function Playing(props) {
 
     const [status, setStatus] = useState(false);
     const [timeline,settimeline] = useState(0);
     const [currvolume, setvolume] = useState(1);
-    const [currtime,setcurrtime] = useState(0.000);
+    const [currtime,setcurrtime] = useState(0.00);
 
     function playMusic() {
         if (status === false) {
@@ -27,10 +30,15 @@ export default function Playing(props) {
                 x=x+(100/(timeofsong[i]*60));
                 settimeline(x);
             },1000);
+            songtime=setInterval(()=>{
+                t1=t1+0.01;
+                setcurrtime(t1);
+            },1000);
         }
         else {
             audio.pause();
             clearInterval(progress);
+            clearInterval(songtime);
         }
 
         setStatus(!status);
@@ -41,14 +49,23 @@ export default function Playing(props) {
     function playNext() {
         audio.pause();
         setStatus(false);
-        setcurrtime(0);
         i = (i + 1) % 5;
+        clearInterval(progress);
         x=0;
         settimeline(0);
         progress=setInterval(()=>{
             x=x+(100/(timeofsong[i]*60));
             settimeline(x);
         },1000);
+
+        clearInterval(songtime);
+        t1=0;
+        setcurrtime(t1)
+        songtime=setInterval(()=>{
+            t1=t1+0.01;
+            setcurrtime(t1);
+        },1000);
+
         audio = new Audio(songsList[i]);
         audio.play();
         setStatus(true);
@@ -59,15 +76,22 @@ export default function Playing(props) {
     function playPrev() {
         audio.pause();
         setStatus(false);
-        setcurrtime(0);
         i = i - 1;
         if (i < 0)
-            i = 4;
+        i = 4;
         x=0;
+        clearInterval(progress);
         settimeline(0);
         progress=setInterval(()=>{
             x=x+(100/(timeofsong[i]*60));
             settimeline(x);
+        },1000);
+        clearInterval(songtime);
+        t1=0;
+        setcurrtime(t1)
+        songtime=setInterval(()=>{
+            t1=t1+0.01;
+            setcurrtime(t1);
         },1000);
         audio = new Audio(songsList[i]);
         audio.play();
@@ -80,12 +104,6 @@ export default function Playing(props) {
     useEffect(()=>{
         audio.volume = currvolume / 100;   
         },[currvolume]);
-
-        useEffect(()=>{
-            setcurrtime(currtime+0.01);
-        },[timeline]);  // eslint-disable-line react-hooks/exhaustive-deps
-
-
 
     function updatetimeline(e){
         settimeline(e.target.value);
