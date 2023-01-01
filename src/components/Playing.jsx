@@ -12,14 +12,13 @@ const timeofsong=[4.06,4.22,3.03,2.33,4.01];
 let i = 0;
 let x=0;
 let audio = new Audio(songsList[i]);
-let inctime=0;
 let progress=0;
 export default function Playing(props) {
 
     const [status, setStatus] = useState(false);
     const [timeline,settimeline] = useState(0);
     const [currvolume, setvolume] = useState(1);
-    const [currtime,setcurrtime] = useState(0.00);
+    const [currtime,setcurrtime] = useState(0.000);
 
     function playMusic() {
         if (status === false) {
@@ -84,7 +83,7 @@ export default function Playing(props) {
 
         useEffect(()=>{
             setcurrtime(currtime+0.01);
-        },[timeline])
+        },[timeline]);
 
 
 
