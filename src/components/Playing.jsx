@@ -12,13 +12,14 @@ const timeofsong=[4.06,4.22,3.03,2.33,4.01];
 let i = 0;
 let x=0;
 let audio = new Audio(songsList[i]);
-
+let inctime=0;
 let progress=0;
 export default function Playing(props) {
 
     const [status, setStatus] = useState(false);
     const [timeline,settimeline] = useState(0);
     const [currvolume, setvolume] = useState(1);
+    const [currtime,setcurrtime] = useState(0.00);
 
     function playMusic() {
         if (status === false) {
@@ -81,6 +82,10 @@ export default function Playing(props) {
         audio.volume = currvolume / 100;   
         },[currvolume]);
 
+        useEffect(()=>{
+            setcurrtime(currtime+0.01);
+        },[timeline])
+
 
 
     function updatetimeline(e){
@@ -103,7 +108,7 @@ export default function Playing(props) {
                 </button>
                 </div>
                 <div className="progressbar">
-                <p>0:00</p>
+                <p>{currtime.toFixed(2)}</p>
                     <input type="range" min="0" max="100" value={timeline} onChange={updatetimeline}/>
                     <p>{timeofsong[i]}</p>
                 </div>
