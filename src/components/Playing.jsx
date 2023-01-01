@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import song1 from "./unstoppable.mp3"
 import song2 from "./Aayat.mp3"
@@ -8,7 +8,7 @@ import song5 from "./oned.mp3"
 
 
 const songsList = [song1, song2, song3, song4, song5];
-const timeofsong=[4.06,4.22,3.03,2.33,4.00];
+const timeofsong=[4.06,4.22,3.03,2.33,4.01];
 let i = 0;
 let x=0;
 let audio = new Audio(songsList[i]);
@@ -76,8 +76,10 @@ export default function Playing(props) {
     }
     function volumeTrigger(e) {
         setvolume(e.target.value);
-        audio.volume = currvolume / 100;
     }
+    useEffect(()=>{
+        audio.volume = currvolume / 100;   
+        },[currvolume]);
 
 
 
